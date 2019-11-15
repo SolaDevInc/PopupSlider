@@ -11,13 +11,12 @@ $(".featured-gallery").each(function(){
   $(this).after($popupGallerySection);
 });
 
-$(window).on('load scroll', function() {
-	var archiveItems = $('.archive-item');
-	$(archiveItems).each(function(i) {
-		$(this).attr("data-item", ( i + 1 ));
-	});
-});
-
+// $(window).on('load scroll', function() {
+// 	var archiveItems = $('.archive-item');
+// 	$(archiveItems).each(function(i) {
+// 		$(this).attr("data-item", ( i + 1 ));
+// 	});
+// });
 
 $(".archive-item").on('click', function() {	
 	$(this).addClass("js-active");
@@ -48,64 +47,104 @@ $(".archive-item").on('click', function() {
 });
 
 
+// function showPrevSlides(n) {
+// 	var i;
+// 	var slideIndex = 1;
+// 	var slides = document.getElementsByClassName("archive-item");
+// 	if (n > slides.length) {slideIndex = 1}
+// 		if (n < 1) {slideIndex = slides.length}
+// 		for (i = 0; i < slides.length; i++) {
+// 			slides[i].className = slides[i].className.replace("js-active", "");
+// 		}
+// 	slides[slideIndex-1].className += " js-active";
+// }
+
+function showSlides(n) {
+	var i;
+	var slideIndex = 1;
+	var slides = document.getElementsByClassName("archive-item");
+	if (n > slides.length) {slideIndex = 1}
+		if (n < 1) {slideIndex = slides.length}
+		for (i = 0; i < slides.length; i++) {
+			slides[i].className = slides[i].className.replace("js-active", "");
+		}
+}
+
 $(".prev").on('click', function() {	
-	
+	// $(".archive-item.js-active").prev("li").addClass("js-active");
+	var $archiveimgDate = $(".archive-item.js-active").prev(".archive-item").find(".gallery-collection-items").children(".photo-date").html();
+	$(".popup-gallery-titles > .photo-date").html($archiveimgDate);
+
+	var $archiveImgFrame = $(".archive-item.js-active").prev(".archive-item").find(".gallery-collection-items").children("img").clone();
+
+	var $archivevidsFrame = $(this).find(".video-iframe").find("iframe").clone();
+	if(!$(".archive-item.js-active").prev(".archive-item").children(".gallery-collection-items").children("div").hasClass("video-iframe")) {
+		$(".popup-media").html($archiveImgFrame);
+	} else {
+		$(".popup-media").html($archivevidsFrame);
+	}
+
+	if($(".archive-item.js-active").prev("li").hasClass("archive-item")) {
+		$(".prev").removeClass("js-active");
+	} else {
+		$(".prev").addClass(" js-active");
+	}
+
+	// showPrevSlides();
+	showSlides();
+	slides[slideIndex-1].className += " js-active";
 });
 
-// $(".prev").on('click', function() {	
-// 	$(".archive-item.js-active").prev("li").addClass("js-active");
-// 	var $archiveimgDate = $(".archive-item.js-active").prev(".archive-item").find(".gallery-collection-items").children(".photo-date").html();
-// 	$(".popup-gallery-titles > .photo-date").html($archiveimgDate);
-
-// 	var $archiveImgFrame = $(".archive-item.js-active").prev(".archive-item").find(".gallery-collection-items").children("img").clone();
-
-// 	var $archivevidsFrame = $(this).find(".video-iframe").find("iframe").clone();
-// 	if(!$(".archive-item.js-active").prev(".archive-item").children(".gallery-collection-items").children("div").hasClass("video-iframe")) {
-// 		$(".popup-media").html($archiveImgFrame);
-// 	} else {
-// 		$(".popup-media").html($archivevidsFrame);
+// function showNextSlides(n) {
+// 	if (n > slides.length) {slideIndex = 1}
+// 	if (n > 1) {slideIndex = slides.length}
+// 	for (i = 0; i < slides.length; i++) {
+// 		slides[i].className = slides[i].className.replace("js-active", "");
 // 	}
+// 	slides[slideIndex+1].className += " js-active";
+// }
 
-// 	if($(".archive-item.js-active").prev("li").hasClass("archive-item")) {
-// 		$(".prev").removeClass("js-active");
-// 	} else {
-// 		$(".prev").addClass("js-active");
-// 	}
+$(".next").on('click', function() {	
+	// $(".archive-item.js-active").next("li").addClass("js-active");
+	var $archiveimageDate = $(".archive-item.js-active").next(".archive-item").find(".gallery-collection-items").children(".photo-date").html();
+	$(".popup-gallery-titles > .photo-date").html($archiveimageDate);
 
-// 	$(".archive-item.js-active").removeClass("js-active");
+	var $archiveImageFrame = $(".archive-item.js-active").next(".archive-item").find(".gallery-collection-items").children("img").clone();
 
-// });
+	var $archivevideoFrame = $(this).find(".video-iframe").find("iframe").clone();
+	if(!$(".archive-item.js-active").next(".archive-item").children(".gallery-collection-items").children("div").hasClass("video-iframe")) {
+		$(".popup-media").html($archiveImageFrame);
+	} else {
+		$(".popup-media").html($archivevideoFrame);
+	}
 
-// $(".next").on('click', function() {	
-// 	$(".archive-item.js-active").next("li").addClass("js-active");
-// 	var $archiveimageDate = $(".archive-item.js-active").next(".archive-item").find(".gallery-collection-items").children(".photo-date").html();
-// 	$(".popup-gallery-titles > .photo-date").html($archiveimageDate);
+	if($(".archive-item.js-active").next("li").hasClass("archive-item")) {
+		$(".next").removeClass("js-active");
+	} else {
+		$(".next").addClass("js-active");
+	}
 
-// 	var $archiveImageFrame = $(".archive-item.js-active").next(".archive-item").find(".gallery-collection-items").children("img").clone();
+	// showNextSlides();
+	showSlides;
+	slides[slideIndex+1].className += " js-active";
 
-// 	var $archivevideoFrame = $(this).find(".video-iframe").find("iframe").clone();
-// 	if(!$(".archive-item.js-active").next(".archive-item").children(".gallery-collection-items").children("div").hasClass("video-iframe")) {
-// 		$(".popup-media").html($archiveImageFrame);
-// 	} else {
-// 		$(".popup-media").html($archivevideoFrame);
-// 	}
-
-// 	if($(".archive-item.js-active").next("li").hasClass("archive-item")) {
-// 		$(".next").removeClass("js-active");
-// 	} else {
-// 		$(".next").addClass("js-active");
-// 	}
-
-// });
+});
 
 // Close Popup Slider Button
 $(".close-gallery-popup").on('click', function() {
   $(".popup-slider").removeClass("js-active");
   $("html, body").removeClass("js-noscroll");
-  $(".popup-video-iframe").empty();
-  $(".popup-video-iframe").hide();
-  $(".popup-gallery-image").hide();
-  $(".popup-gallery-image > img").attr("src", '');
-  $(".popup-gallery-image > img").attr("srcset", '');
+	$(".popup-media").empty();
+	$(".archive-item").removeClass("js-active");
   $(".popup-gallery-titles > .photo-date").empty();
 });
+
+// function showSlides(n) {
+//   var i;
+//   var slides = document.getElementsByClassName("archive-item");
+//   if (n > slides.length) {slideIndex = 1}
+//     if (n < 1) {slideIndex = slides.length}
+//     for (i = 0; i < slides.length; i++) {
+//       slides[i].className = slides[i].className.replace(" active", "");
+//     }
+// }
