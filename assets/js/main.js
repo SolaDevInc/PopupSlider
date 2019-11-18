@@ -11,13 +11,6 @@ $(".featured-gallery").each(function(){
   $(this).after($popupGallerySection);
 });
 
-// $(window).on('load scroll', function() {
-// 	var archiveItems = $('.archive-item');
-// 	$(archiveItems).each(function(i) {
-// 		$(this).attr("data-item", ( i + 1 ));
-// 	});
-// });
-
 $(".archive-item").on('click', function() {	
 	$(this).addClass("js-active");
 	var $imgDate = $(this).find(".gallery-collection-items").children(".photo-date").html();
@@ -46,89 +39,57 @@ $(".archive-item").on('click', function() {
 	}
 });
 
+ 
+var slideIndex = 1;
+showSlides(slideIndex);
 
-// function showPrevSlides(n) {
-// 	var i;
-// 	var slideIndex = 1;
-// 	var slides = document.getElementsByClassName("archive-item");
-// 	if (n > slides.length) {slideIndex = 1}
-// 		if (n < 1) {slideIndex = slides.length}
-// 		for (i = 0; i < slides.length; i++) {
-// 			slides[i].className = slides[i].className.replace("js-active", "");
-// 		}
-// 	slides[slideIndex-1].className += " js-active";
-// }
-
-function showSlides(n) {
-	var i;
-	var slideIndex = 1;
-	var slides = document.getElementsByClassName("archive-item");
-	if (n > slides.length) {slideIndex = 1}
-		if (n < 1) {slideIndex = slides.length}
-		for (i = 0; i < slides.length; i++) {
-			slides[i].className = slides[i].className.replace("js-active", "");
-		}
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
 }
 
-$(".prev").on('click', function() {	
-	// $(".archive-item.js-active").prev("li").addClass("js-active");
-	var $archiveimgDate = $(".archive-item.js-active").prev(".archive-item").find(".gallery-collection-items").children(".photo-date").html();
-	$(".popup-gallery-titles > .photo-date").html($archiveimgDate);
+// Next/previous controls
+$(".next")
+	.click(function() {
+		// plusSlides();
+		plusSlides(1);
+		slideContent();
+	});
 
-	var $archiveImgFrame = $(".archive-item.js-active").prev(".archive-item").find(".gallery-collection-items").children("img").clone();
+$(".prev")
+	.click(function() {
+		// plusSlides();
+		plusSlides(-1);
+		slideContent();
+	});
 
-	var $archivevidsFrame = $(this).find(".video-iframe").find("iframe").clone();
-	if(!$(".archive-item.js-active").prev(".archive-item").children(".gallery-collection-items").children("div").hasClass("video-iframe")) {
-		$(".popup-media").html($archiveImgFrame);
-	} else {
-		$(".popup-media").html($archivevidsFrame);
-	}
+// Show slide with index n
+function showSlides(n) {
+	var i;
+  var slides = document.getElementsByClassName("archive-item");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+   	slides[i].className = slides[i].className.replace(" js-active", "");
+  }
+  slides[slideIndex-1].className += " js-active";
+}
 
-	if($(".archive-item.js-active").prev("li").hasClass("archive-item")) {
-		$(".prev").removeClass("js-active");
-	} else {
-		$(".prev").addClass(" js-active");
-	}
+// Take All the the content from the current slide
 
-	// showPrevSlides();
-	showSlides();
-	slides[slideIndex-1].className += " js-active";
-});
-
-// function showNextSlides(n) {
-// 	if (n > slides.length) {slideIndex = 1}
-// 	if (n > 1) {slideIndex = slides.length}
-// 	for (i = 0; i < slides.length; i++) {
-// 		slides[i].className = slides[i].className.replace("js-active", "");
-// 	}
-// 	slides[slideIndex+1].className += " js-active";
-// }
-
-$(".next").on('click', function() {	
-	// $(".archive-item.js-active").next("li").addClass("js-active");
-	var $archiveimageDate = $(".archive-item.js-active").next(".archive-item").find(".gallery-collection-items").children(".photo-date").html();
+function slideContent() {
+	var $archiveimageDate = $(".archive-item.js-active").find(".gallery-collection-items").children(".photo-date").html();
 	$(".popup-gallery-titles > .photo-date").html($archiveimageDate);
 
-	var $archiveImageFrame = $(".archive-item.js-active").next(".archive-item").find(".gallery-collection-items").children("img").clone();
+	var $archiveImageFrame = $(".archive-item.js-active").find(".gallery-collection-items").children("img").clone();
 
-	var $archivevideoFrame = $(this).find(".video-iframe").find("iframe").clone();
-	if(!$(".archive-item.js-active").next(".archive-item").children(".gallery-collection-items").children("div").hasClass("video-iframe")) {
+	var $archivevideoFrame = $(".archive-item.js-active").find(".video-iframe").find("iframe").clone();
+	if(!$(".archive-item.js-active").find(".gallery-collection-items").children("div").hasClass("video-iframe")) {
 		$(".popup-media").html($archiveImageFrame);
 	} else {
 		$(".popup-media").html($archivevideoFrame);
 	}
-
-	if($(".archive-item.js-active").next("li").hasClass("archive-item")) {
-		$(".next").removeClass("js-active");
-	} else {
-		$(".next").addClass("js-active");
-	}
-
-	// showNextSlides();
-	showSlides;
-	slides[slideIndex+1].className += " js-active";
-
-});
+}
 
 // Close Popup Slider Button
 $(".close-gallery-popup").on('click', function() {
@@ -138,13 +99,3 @@ $(".close-gallery-popup").on('click', function() {
 	$(".archive-item").removeClass("js-active");
   $(".popup-gallery-titles > .photo-date").empty();
 });
-
-// function showSlides(n) {
-//   var i;
-//   var slides = document.getElementsByClassName("archive-item");
-//   if (n > slides.length) {slideIndex = 1}
-//     if (n < 1) {slideIndex = slides.length}
-//     for (i = 0; i < slides.length; i++) {
-//       slides[i].className = slides[i].className.replace(" active", "");
-//     }
-// }
