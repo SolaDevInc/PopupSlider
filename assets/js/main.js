@@ -70,9 +70,11 @@ function showSlides(n) {
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
-   	slides[i].className = slides[i].className.replace(" js-active", "");
-  }
-  slides[slideIndex-1].className += " js-active";
+		 slides[i].className = slides[i].className.replace(" js-active", "");
+	}
+	
+	slides[slideIndex-1].className += " js-active";
+
 }
 
 // Take All the the content from the current slide
@@ -89,6 +91,18 @@ function slideContent() {
 	} else {
 		$(".popup-media").html($archivevideoFrame);
 	}
+
+	if($(".archive-item.js-active").prev("li").hasClass("archive-item")) {
+		$(".prev").addClass("js-active");
+	} else {
+		$(".prev").removeClass("js-active");
+	}
+
+	if($(".archive-item.js-active").next("li").hasClass("archive-item")) {
+		$(".next").addClass("js-active");
+	} else {
+		$(".next").removeClass("js-active");
+	}
 }
 
 // Close Popup Slider Button
@@ -98,4 +112,6 @@ $(".close-gallery-popup").on('click', function() {
 	$(".popup-media").empty();
 	$(".archive-item").removeClass("js-active");
   $(".popup-gallery-titles > .photo-date").empty();
+	$(".next").removeClass("js-active");
+	$(".prev").removeClass("js-active");
 });
