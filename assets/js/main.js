@@ -5,7 +5,7 @@
 // Gallery-Popup
 ///////////////////
 
-var $popupGallerySection = '<section class="popup-slider"><button class="close-gallery-popup">X</button><div class="gallery-slider"><button class="btn prev"> < </button><article class="popup-archive"><div class="popup-media"></div></article><article class="popup-figcaption"><div class="popup-gallery-titles figcaption-popup"><span class="photo-date" style="display: block;"></span></div></article><button class="btn next"> > </button></div></section>';
+var $popupGallerySection = '<section class="popup-slider"><button class="close-gallery-popup">X</button><div class="gallery-slider"><button id="arrow-left" class="btn prev"> < </button><article class="popup-archive"><div class="popup-media"></div></article><article class="popup-figcaption"><div class="popup-gallery-titles figcaption-popup"><span class="photo-date" style="display: block;"></span></div></article><button id="arrow-right" class="btn next"> > </button></div></section>';
 
 $(".featured-gallery").each(function(){
   $(this).after($popupGallerySection);
@@ -15,6 +15,10 @@ $(".gallery-slider").each(function() {
 
 	$(".archive-item").on('click', function() {	
 		$(this).addClass("js-active");
+		// var current = $(this).index();
+		var slideIndex = $(this).index();
+		// alert(current);
+		alert(slideIndex);
 		var $imgDate = $(this).find(".gallery-collection-items").children(".photo-date").html();
 		$(".popup-gallery-titles > .photo-date").html($imgDate);
 		$(".popup-slider").addClass("js-active");
@@ -38,6 +42,49 @@ $(".gallery-slider").each(function() {
 			$(".next").addClass("js-active");
 		} else {
 			$(".next").removeClass("js-active");
+		}
+
+		var slideIndex = 0;
+		var slideIndex = $(".archive-item").hasClass("js-active");
+		var slidelength = $(".archive-item").length;
+	
+		function prevSlide() {
+			showSlides(slideIndex - 1);
+		}
+	
+		function nextSlide() {
+			showSlides(slideIndex + 1);
+		}
+	
+		// Next/previous controls
+		$(".next").click(function() {
+			nextSlide();
+		});
+	
+		$(".prev").click(function() {
+			prevSlide();
+		});
+
+		// Show slide with index n
+		function showSlides(n) {
+			if (n > slidelength - 1) {
+				n -= slidelength;
+			}
+			if (n < 0) {
+				n += slidelength;
+			}
+			
+			for (i = 0; i < slidelength; i++) {
+				$(".archive-item").removeClass("js-active");
+			}
+
+			// var slides = $(".archive-item").removeClass("js-active");
+
+			var slides = $(".archive-item");
+			var newSlide = slides.eq(n);
+			newSlide.addClass("js-active");
+			slideContent();
+			slideIndex = n;
 		}
 	});
 	 
@@ -70,51 +117,6 @@ $(".gallery-slider").each(function() {
 		}
 	}
 
-	///////////////////////////////////////
-	//Slide-show
-	///////////////////////////////////////
-
-	var slideIndex = 0;
-	var slidelength = $(".archive-item").length;
-
-	function prevSlide() {
-		showSlides(slideIndex - 1);
-	}
-
-	function nextSlide() {
-		showSlides(slideIndex + 1);
-	}
-
-	// Next/previous controls
-	$(".next").click(function() {
-		nextSlide();
-	});
-
-	$(".prev").click(function() {
-		prevSlide();
-	});
-
-	// Show slide with index n
-	function showSlides(n) {
-		if (n > slidelength - 1) {
-			n -= slidelength;
-		}
-		if (n < 0) {
-			n += slidelength;
-		}
-		
-		for (i = 0; i < slidelength; i++) {
-			$(".archive-item").removeClass("js-active");
-		}
-
-		// var slides = $(".archive-item").removeClass("js-active");
-
-		var slides = $(".archive-item");
-		var newSlide = slides.eq(n);
-		newSlide.addClass("js-active");
-		slideContent();
-		slideIndex = n;
-	}
 });
 
 // Close Popup Slider Button
@@ -127,4 +129,3 @@ $(".close-gallery-popup").on('click', function() {
 	$(".next").removeClass("js-active");
 	$(".prev").removeClass("js-active");
 });
-
