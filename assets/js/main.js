@@ -11,85 +11,74 @@ $(".featured-gallery").each(function(){
   $(this).after($popupGallerySection);
 });
 
-$(".gallery-slider").each(function() {
+$(".archive-item").on('click', function() {	
+	$(this).addClass("js-active");
+	var slideIndex = $(this).index();
+	var $imgDate = $(this).find(".gallery-collection-items").children(".photo-date").html();
+	$(".popup-gallery-titles > .photo-date").html($imgDate);
+	$(".popup-slider").addClass("js-active");
+	$("html, body").addClass("js-noscroll");
 
-	$(".archive-item").on('click', function() {	
-		$(this).addClass("js-active");
-		// var current = $(this).index();
-		var slideIndex = $(this).index();
-		// alert(current);
-		alert(slideIndex);
-		var $imgDate = $(this).find(".gallery-collection-items").children(".photo-date").html();
-		$(".popup-gallery-titles > .photo-date").html($imgDate);
-		$(".popup-slider").addClass("js-active");
-		$("html, body").addClass("js-noscroll");
+	var $imgSrc = $(this).find(".gallery-collection-items").children("img").clone();
+	var $videoFrame = $(this).find(".video-iframe").find("iframe").clone();
+	if(!$(this).children(".gallery-collection-items").children("div").hasClass("video-iframe")) {
+		$(".popup-media").html($imgSrc);
+	} else {
+		$(".popup-media").html($videoFrame);
+	}
 
-		var $imgSrc = $(this).find(".gallery-collection-items").children("img").clone();
-		var $videoFrame = $(this).find(".video-iframe").find("iframe").clone();
-		if(!$(this).children(".gallery-collection-items").children("div").hasClass("video-iframe")) {
-			$(".popup-media").html($imgSrc);
-		} else {
-			$(".popup-media").html($videoFrame);
-		}
+	if($(this).prev("li").hasClass("archive-item")) {
+		$(".prev").addClass("js-active");
+	} else {
+		$(".prev").removeClass("js-active");
+	}
 
-		if($(this).prev("li").hasClass("archive-item")) {
-			$(".prev").addClass("js-active");
-		} else {
-			$(".prev").removeClass("js-active");
-		}
+	if($(this).next("li").hasClass("archive-item")) {
+		$(".next").addClass("js-active");
+	} else {
+		$(".next").removeClass("js-active");
+	}
 
-		if($(this).next("li").hasClass("archive-item")) {
-			$(".next").addClass("js-active");
-		} else {
-			$(".next").removeClass("js-active");
-		}
+	var slidelength = $(".archive-item").length;
 
-		var slideIndex = 0;
-		var slideIndex = $(".archive-item").hasClass("js-active");
-		var slidelength = $(".archive-item").length;
-	
-		function prevSlide() {
-			showSlides(slideIndex - 1);
-		}
-	
-		function nextSlide() {
-			showSlides(slideIndex + 1);
-		}
-	
-		// Next/previous controls
-		$(".next").click(function() {
-			nextSlide();
-		});
-	
-		$(".prev").click(function() {
-			prevSlide();
-		});
+	function prevSlide() {
+		showSlides(slideIndex - 1);
+	}
 
-		// Show slide with index n
-		function showSlides(n) {
-			if (n > slidelength - 1) {
-				n -= slidelength;
-			}
-			if (n < 0) {
-				n += slidelength;
-			}
-			
-			for (i = 0; i < slidelength; i++) {
-				$(".archive-item").removeClass("js-active");
-			}
+	function nextSlide() {
+		showSlides(slideIndex + 1);
+	}
 
-			// var slides = $(".archive-item").removeClass("js-active");
-
-			var slides = $(".archive-item");
-			var newSlide = slides.eq(n);
-			newSlide.addClass("js-active");
-			slideContent();
-			slideIndex = n;
-		}
+	// Next/previous controls
+	$(".next").click(function() {
+		nextSlide();
 	});
-	 
 
-	// Take All the the content from the current slide
+	$(".prev").click(function() {
+		prevSlide();
+	});
+
+	// Show slide with index n
+	function showSlides(n) {
+		if (n > slidelength - 1) {
+			n -= slidelength;
+		}
+		if (n < 0) {
+			n += slidelength;
+		}
+		
+		for (i = 0; i < slidelength; i++) {
+			$(".archive-item").removeClass("js-active");
+		}
+
+		// var slides = $(".archive-item").removeClass("js-active");
+
+		var slides = $(".archive-item");
+		var newSlide = slides.eq(n);
+		newSlide.addClass("js-active");
+		slideContent();
+		slideIndex = n;
+	}
 
 	function slideContent() {
 		var $archiveimageDate = $(".archive-item.js-active").find(".gallery-collection-items").children(".photo-date").html();
@@ -129,3 +118,5 @@ $(".close-gallery-popup").on('click', function() {
 	$(".next").removeClass("js-active");
 	$(".prev").removeClass("js-active");
 });
+
+
